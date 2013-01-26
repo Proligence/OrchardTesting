@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=2.6.3.862, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\..\..\lib\moq\Moq.dll</HintPath>
     </Reference>
@@ -48,7 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertActionResult.cs" />
+    <Compile Include="ContentDriverTestFixture.cs" />
+    <Compile Include="ContainerTestFixture.cs" />
     <Compile Include="ContentHandlerTestFixture.cs" />
+    <Compile Include="ContentPartDriverExtensions.cs" />
+    <Compile Include="ContentShapeResultExtensions.cs" />
     <Compile Include="ControllerTestFixture.cs" />
     <Compile Include="LazyFieldExtensions.cs" />
     <Compile Include="Mocks\AuthorizerMock.cs" />
@@ -57,9 +65,13 @@
     <Compile Include="Mocks\LoggerMock.cs" />
     <Compile Include="Mocks\NotifierMock.cs" />
     <Compile Include="Mocks\OrchardServicesMock.cs" />
+    <Compile Include="Mocks\ShapeMock.cs" />
     <Compile Include="Mocks\TransactionManagerMock.cs" />
+    <Compile Include="Mocks\UpdateModelMock.cs" />
     <Compile Include="Mocks\WorkContextMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Mocks\ShapeFactoryMock.cs" />
+    <Compile Include="ShapeTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard.Web\Core\Orchard.Core.csproj">

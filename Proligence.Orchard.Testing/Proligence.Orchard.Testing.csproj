@@ -71,6 +71,7 @@
     <Compile Include="Mocks\TransactionManagerMock.cs" />
     <Compile Include="Mocks\UpdateModelMock.cs" />
     <Compile Include="Mocks\WorkContextMock.cs" />
+    <Compile Include="NavigationProviderTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ShapeFactoryMock.cs" />
     <Compile Include="RoutesTestFixture.cs" />

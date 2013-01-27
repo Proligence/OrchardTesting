@@ -6,7 +6,7 @@
 
     public static class CombinedResultExtensions
     {
-        public static ShapeMock BuildMock(this CombinedResult combinedResult, int index)
+        public static ShapeMock BuildShapeMock(this CombinedResult combinedResult, int index)
         {
             DriverResult[] driverResults = combinedResult.GetResults().ToArray();
             if (driverResults.Length > index)
@@ -21,7 +21,7 @@
             return null;
         }
 
-        public static ShapeMock BuildMock(this CombinedResult combinedResult, string shapeType)
+        public static ShapeMock BuildShapeMock(this CombinedResult combinedResult, string shapeType)
         {
             DriverResult[] driverResults = combinedResult.GetResults().ToArray();
             foreach (DriverResult driverResult in driverResults)

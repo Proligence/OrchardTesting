@@ -24,7 +24,14 @@
             var shapeFactoryMock = new ShapeFactoryMock();
             var ctx = new Mock<BuildShapeContext>(shape.Object, content.Object, string.Empty, shapeFactoryMock).Object;
 
-            return (ShapeMock)builder(ctx);
+            var result = (ShapeMock)builder(ctx);
+
+            if (result != null)
+            {
+                result.Type = shapeResult.GetShapeType();
+            }
+
+            return result;
         }
     }
 }

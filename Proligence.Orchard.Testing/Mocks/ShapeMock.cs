@@ -7,17 +7,23 @@
 
     public class ShapeMock : IShape
     {
-        public ShapeMock(string shapeType)
+        public ShapeMock(string name)
         {
-            Type = shapeType;
+            Name = name;
             Data = new Dictionary<string, object>();
-            Metadata = new ShapeMetadata { Type = shapeType };
+            Metadata = new ShapeMetadata();
         }
 
-        public string Type { get; private set; }
+        public string Name { get; private set; }
         public ShapeMetadata Metadata { get; set; }
         public ContentItem ContentItem { get; set; }
         internal Dictionary<string, object> Data { get; private set; }
+
+        public string Type
+        {
+            get { return Metadata.Type; } 
+            set { Metadata.Type = value; }
+        }
 
         public object this[string name]
         {

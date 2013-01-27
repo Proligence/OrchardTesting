@@ -73,6 +73,7 @@
     <Compile Include="Mocks\WorkContextMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ShapeFactoryMock.cs" />
+    <Compile Include="RoutesTestFixture.cs" />
     <Compile Include="ShapeTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>

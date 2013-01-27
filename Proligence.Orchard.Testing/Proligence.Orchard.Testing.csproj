@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertActionResult.cs" />
+    <Compile Include="CombinedResultExtensions.cs" />
     <Compile Include="ContentDriverTestFixture.cs" />
     <Compile Include="ContainerTestFixture.cs" />
     <Compile Include="ContentHandlerTestFixture.cs" />

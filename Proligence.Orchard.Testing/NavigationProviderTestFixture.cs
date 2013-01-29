@@ -21,7 +21,7 @@
             PropertyInfo localizerProperty = typeof(TProvider).GetProperty("T", typeof(Localizer));
             if (localizerProperty != null)
             {
-                localizerProperty.SetValue(Provider, NullLocalizer.Instance);
+                localizerProperty.SetValue(Provider, NullLocalizer.Instance, null);
             }
         }
 

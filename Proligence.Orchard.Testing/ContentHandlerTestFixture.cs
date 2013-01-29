@@ -156,7 +156,7 @@
         {
             Assert.That(Handler.Filters.Any(f =>
                 f.GetType().Name == typeof(StorageVersionFilter<>).Name &&
-                f.GetType().GenericTypeArguments[0].Name == typeof(TRecord).Name),
+                f.GetType().GetGenericArguments()[0].Name == typeof(TRecord).Name),
                 "Expected StorageFilter for '" + typeof(TRecord).Name + "' but filter was not attached.");
         }
 

@@ -1,10 +1,33 @@
 ﻿namespace Proligence.Orchard.Testing.Mocks
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Linq.Expressions;
     using Moq;
     using global::Orchard.ContentManagement;
+    using global::Orchard.ContentManagement.Records;
 
     public class ContentManagerMock : Mock<IContentManager>
     {
+        private Mock<IContentQuery<ContentItem>> _contentQuery;
+        private readonly Dictionary<Type, object> _partQueries;
+        private readonly Dictionary<Tuple<Type, Type>, object> _recordQueries;
+
+        public ContentManagerMock()
+        {
+            _partQueries = new Dictionary<Type, object>();
+            _recordQueries = new Dictionary<Tuple<Type, Type>, object>();
+        }
+
+        public ContentManagerMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+            _partQueries = new Dictionary<Type, object>();
+            _recordQueries = new Dictionary<Tuple<Type, Type>, object>();
+        }
+
         public void ExpectGetItem(int id, ContentItem contentItem)
         {
             Setup(x => x.Get(id)).Returns(contentItem);
@@ -52,12 +75,121 @@
 
         public void ExpectFlush()
         {
-            Setup(x => x.Flush());
+            Setup(x => x.Flush()).Verifiable("ContentManager was not flushed.");
+        }
+
+        public void VerifyFlush()
+        {
+            Verify(x => x.Flush());
         }
 
         public void ExpectClear()
         {
-            Setup(x => x.Clear());
+            Setup(x => x.Clear()).Verifiable("ContentManager was not cleared");
+        }
+
+        public void VerifyClear()
+        {
+            Verify(x => x.Clear());
+        }
+
+        public void MockContentItem<TPart, TRecord>(IContent item, params string[] contentTypeNames)
+            where TPart : ContentPart
+            where TRecord : ContentPartRecord
+        {
+            MockContentItems<TPart, TRecord>(new[] { item }, contentTypeNames);
+        }
+
+        public void MockContentItems<TPart, TRecord>(IEnumerable<IContent> items, params string[] contentTypeNames)
+            where TPart : ContentPart
+            where TRecord : ContentPartRecord
+        {
+            if (_contentQuery == null)
+            {
+                _contentQuery = new Mock<IContentQuery<ContentItem>>();
+                Setup(x => x.Query()).Returns(_contentQuery.Object);
+            }
+
+            Mock<IContentQuery<TPart>> partQuery;
+            if (!_partQueries.ContainsKey(typeof(TPart)))
+            {
+                partQuery = new Mock<IContentQuery<TPart>>();
+                _contentQuery.Setup(x => x.ForPart<TPart>()).Returns(partQuery.Object);
+                _partQueries.Add(typeof(TPart), partQuery);
+            }
+            else
+            {
+                partQuery = (Mock<IContentQuery<TPart>>)_partQueries[typeof(TPart)];
+            }
+
+            Mock<IContentQuery<TPart, TRecord>> recordQuery;
+            var recordQueryKey = new Tuple<Type, Type>(typeof(TPart), typeof(TRecord));
+            if (!_recordQueries.ContainsKey(recordQueryKey))
+            {
+                recordQuery = new Mock<IContentQuery<TPart, TRecord>>();
+                _recordQueries.Add(recordQueryKey, recordQuery);
+            }
+            else
+            {
+                recordQuery = (Mock<IContentQuery<TPart, TRecord>>)_recordQueries[recordQueryKey];
+            }
+
+            if (contentTypeNames != null)
+            {
+                var newPartQuery = new Mock<IContentQuery<TPart>>();
+                partQuery.Setup(x => x.ForType(ItIsEquivalentArray(contentTypeNames))).Returns(newPartQuery.Object);
+                partQuery = newPartQuery;
+            }
+
+            partQuery.Setup(x => x.Where(It.IsAny<Expression<Func<TRecord, bool>>>())).Returns(recordQuery.Object);
+            recordQuery.Setup(x => x.List()).Returns(items.Select(x => x.As<TPart>()).Where(x => x != null));
+        }
+
+        private static T[] ItIsEquivalentArray<T>(T[] arr)
+        {
+            return Match<T[]>.Create(
+                x =>
+                    { 
+                        if (arr.Length != x.Length)
+                        {
+                            Trace.WriteLine("Array match: " + SequenceToString(arr) + " != " + SequenceToString(x));
+                            return false;
+                        }
+
+                        int index = 0;
+                        foreach (T item in arr)
+                        {
+                            if (!ReferenceEquals(item, null))
+                            {
+                                if (!item.Equals(x[index++]))
+                                {
+                                    Trace.WriteLine("Array match: " + SequenceToString(arr) + " != " + SequenceToString(x));
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (!ReferenceEquals(x[index++], null))
+                                {
+                                    Trace.WriteLine("Array match: " + SequenceToString(arr) + " != " + SequenceToString(x));
+                                    return false;
+                                }
+                            }
+                        }
+
+                        Trace.WriteLine("Array match: " + SequenceToString(arr) + " == " + SequenceToString(x));
+                        return true;
+                    });
+        }
+
+        private static string SequenceToString<T>(IEnumerable<T> arr)
+        {
+            if (arr == null)
+            {
+                return "null";
+            }
+
+            return "[" + string.Join(",", arr.Select(x => !ReferenceEquals(x, null) ? x.ToString() : "null")) + "]";
         }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="ContentPartDriverExtensions.cs" />
     <Compile Include="ContentShapeResultExtensions.cs" />
     <Compile Include="ControllerTestFixture.cs" />
+    <Compile Include="HttpRoutesTestFixture.cs" />
     <Compile Include="LazyFieldExtensions.cs" />
     <Compile Include="Mocks\AuthorizerMock.cs" />
     <Compile Include="Mocks\ContentDefinitionManagerMock.cs" />

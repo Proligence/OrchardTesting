@@ -1,5 +1,6 @@
 ﻿namespace Proligence.Orchard.Testing
 {
+    using System;
     using System.Linq;
     using NUnit.Framework;
     using global::Orchard.ContentManagement.Handlers;
@@ -154,9 +155,12 @@
         public void AssertHandlerHasStorageFilter<TRecord>()
             where TRecord : ContentPartRecord
         {
+            string storageVersionFilterName = typeof(StorageVersionFilter<>).Name;
+            string storageFilterName = typeof(StorageFilter<>).Name;
+
             Assert.That(Handler.Filters.Any(f =>
-                f.GetType().Name == typeof(StorageVersionFilter<>).Name &&
-                f.GetType().GetGenericArguments()[0].Name == typeof(TRecord).Name),
+                (f.GetType().Name == storageVersionFilterName || f.GetType().Name == storageFilterName)
+                && f.GetType().GetGenericArguments()[0].Name == typeof(TRecord).Name),
                 "Expected StorageFilter for '" + typeof(TRecord).Name + "' but filter was not attached.");
         }
 
@@ -166,6 +170,18 @@
             Assert.That(
                 Handler.Filters.Any(f => f.GetType().Name == typeof(TFilter).Name),
                 "Expected filter '" + typeof(TFilter).Name + "' but filter was not attached.");
+        }
+
+        public void AssertHandlerHasFilter<TFilter>(Func<TFilter, bool> assert)
+            where TFilter : IContentFilter
+        {
+            IContentFilter filter = Handler.Filters.FirstOrDefault(f => f.GetType().Name == typeof(TFilter).Name);
+            if (filter == null)
+            {
+                Assert.Fail("Expected filter '" + typeof(TFilter).Name + "' but filter was not attached.");
+            }
+
+            Assert.That(assert((TFilter)filter), "Content filter assertion failed.");
         }
 
         protected abstract THandler CreateHandler();

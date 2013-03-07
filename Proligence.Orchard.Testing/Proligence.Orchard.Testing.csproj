@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivatingFilterExtensions.cs" />
     <Compile Include="AssertActionResult.cs" />
     <Compile Include="CombinedResultExtensions.cs" />
     <Compile Include="ContentDriverTestFixture.cs" />

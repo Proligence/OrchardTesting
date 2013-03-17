@@ -33,5 +33,10 @@
 
             Setup(x => x.AddModelError(expectedErrorKey, expectedErrorMessage));
         }
+
+        public void ExpectModelError(string key, string message)
+        {
+            Setup(x => x.AddModelError(key, It.Is<LocalizedString>(s => s.Text.Equals(message))));
+        }
     }
 }

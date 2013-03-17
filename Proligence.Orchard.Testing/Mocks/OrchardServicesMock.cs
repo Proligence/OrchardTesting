@@ -1,5 +1,6 @@
 ﻿namespace Proligence.Orchard.Testing.Mocks
 {
+    using Moq;
     using global::Orchard;
     using global::Orchard.ContentManagement;
     using global::Orchard.Data;
@@ -15,6 +16,15 @@
             AuthorizerMock = new AuthorizerMock();
             NotifierMock = new NotifierMock();
             WorkContextMock = new WorkContextMock();
+        }
+
+        public OrchardServicesMock(MockBehavior mockBehavior)
+        {
+            ContentManagerMock = new ContentManagerMock(mockBehavior);
+            TransactionManagerMock = new TransactionManagerMock(mockBehavior);
+            AuthorizerMock = new AuthorizerMock(mockBehavior);
+            NotifierMock = new NotifierMock(mockBehavior);
+            WorkContextMock = new WorkContextMock(mockBehavior);
         }
 
         public ContentManagerMock ContentManagerMock { get; private set; }

@@ -7,6 +7,15 @@
 
     public class ContentDefinitionManagerMock : Mock<IContentDefinitionManager>
     {
+        public ContentDefinitionManagerMock()
+        {
+        }
+
+        public ContentDefinitionManagerMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+        }
+
         public void ExpectGetTypeDefinition(string name, ContentTypeDefinition definition)
         {
             Setup(x => x.GetTypeDefinition(name)).Returns(definition);

@@ -5,6 +5,15 @@
 
     public class TransactionManagerMock : Mock<ITransactionManager>
     {
+        public TransactionManagerMock()
+        {
+        }
+
+        public TransactionManagerMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+        }
+
         public void ExpectDemand()
         {
             Setup(x => x.Demand());

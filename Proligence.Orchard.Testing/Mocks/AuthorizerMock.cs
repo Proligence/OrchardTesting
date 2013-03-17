@@ -8,6 +8,15 @@
 
     public class AuthorizerMock : Mock<IAuthorizer>
     {
+        public AuthorizerMock()
+        {
+        }
+
+        public AuthorizerMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+        }
+
         public void Allow()
         {
             Setup(x => x.Authorize(It.IsAny<Permission>(), It.IsAny<LocalizedString>())).Returns(true);

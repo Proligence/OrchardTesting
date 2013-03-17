@@ -7,6 +7,15 @@
 
     public class UpdateModelMock : Mock<IUpdateModel>
     {
+        public UpdateModelMock()
+        {
+        }
+
+        public UpdateModelMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+        }
+
         public void SetupUpdate<TModel>(Action<TModel> callback) 
             where TModel : class
         {

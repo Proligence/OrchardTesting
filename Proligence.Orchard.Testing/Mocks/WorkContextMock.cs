@@ -16,6 +16,12 @@
             CurrentUser = CurrentUserMock.Object;
         }
 
+        public WorkContextMock(MockBehavior mockBehavior)
+        {
+            CurrentUserMock = new Mock<IUser>(mockBehavior);
+            CurrentUser = CurrentUserMock.Object;
+        }
+
         public Mock<IUser> CurrentUserMock { get; private set; }
         public Func<Type, object> ResolveFunc { get; set; }
 

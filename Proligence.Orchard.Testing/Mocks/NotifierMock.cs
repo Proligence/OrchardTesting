@@ -6,6 +6,15 @@
 
     public class NotifierMock : Mock<INotifier>
     {
+        public NotifierMock()
+        {
+        }
+
+        public NotifierMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+        }
+
         public void ExpectError(string message)
         {
             Setup(x => x.Add(NotifyType.Error, It.Is<LocalizedString>(s => s.Text == message)));

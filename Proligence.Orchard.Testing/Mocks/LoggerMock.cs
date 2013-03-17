@@ -8,10 +8,13 @@
     {
         public LoggerMock()
         {
-            Setup(x => x.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+            this.InitializeMock();
+        }
 
-            // Invoke the property to avoid unverified expectations.
-            Object.IsEnabled(LogLevel.Debug);
+        public LoggerMock(MockBehavior mockBehavior)
+            : base(mockBehavior)
+        {
+            this.InitializeMock();
         }
 
         public void ExpectFatalError(string expectedMessage)
@@ -72,6 +75,14 @@
         public void ExpectDebug(string expectedMessage, params object[] args)
         {
             Setup(x => x.Log(LogLevel.Debug, null, expectedMessage, args));
+        }
+
+        private void InitializeMock()
+        {
+            this.Setup(x => x.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+
+            // Invoke the property to avoid unverified expectations.
+            this.Object.IsEnabled(LogLevel.Debug);
         }
     }
 }

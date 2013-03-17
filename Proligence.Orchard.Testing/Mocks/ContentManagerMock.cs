@@ -15,6 +15,19 @@
         private readonly Dictionary<Type, object> _partQueries;
         private readonly Dictionary<Tuple<Type, Type>, object> _recordQueries;
 
+        public Mock<IContentQuery<ContentItem>> ContentQueryMock
+        {
+            get
+            {
+                if (_contentQuery == null)
+                {
+                    _contentQuery = new Mock<IContentQuery<ContentItem>>(MockBehavior.Strict);
+                }
+
+                return _contentQuery;
+            }
+        }
+
         public ContentManagerMock()
         {
             _partQueries = new Dictionary<Type, object>();
@@ -106,14 +119,14 @@
         {
             if (_contentQuery == null)
             {
-                _contentQuery = new Mock<IContentQuery<ContentItem>>();
+                _contentQuery = new Mock<IContentQuery<ContentItem>>(MockBehavior.Strict);
                 Setup(x => x.Query()).Returns(_contentQuery.Object);
             }
 
             Mock<IContentQuery<TPart>> partQuery;
             if (!_partQueries.ContainsKey(typeof(TPart)))
             {
-                partQuery = new Mock<IContentQuery<TPart>>();
+                partQuery = new Mock<IContentQuery<TPart>>(MockBehavior.Strict);
                 _contentQuery.Setup(x => x.ForPart<TPart>()).Returns(partQuery.Object);
                 _partQueries.Add(typeof(TPart), partQuery);
             }
@@ -126,7 +139,7 @@
             var recordQueryKey = new Tuple<Type, Type>(typeof(TPart), typeof(TRecord));
             if (!_recordQueries.ContainsKey(recordQueryKey))
             {
-                recordQuery = new Mock<IContentQuery<TPart, TRecord>>();
+                recordQuery = new Mock<IContentQuery<TPart, TRecord>>(MockBehavior.Strict);
                 _recordQueries.Add(recordQueryKey, recordQuery);
             }
             else
@@ -136,7 +149,7 @@
 
             if (contentTypeNames != null)
             {
-                var newPartQuery = new Mock<IContentQuery<TPart>>();
+                var newPartQuery = new Mock<IContentQuery<TPart>>(MockBehavior.Strict);
                 partQuery.Setup(x => x.ForType(ItIsEquivalentArray(contentTypeNames))).Returns(newPartQuery.Object);
                 partQuery = newPartQuery;
             }

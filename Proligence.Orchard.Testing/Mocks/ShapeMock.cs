@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Dynamic;
     using System.Web.Mvc;
     using global::Orchard.ContentManagement;
@@ -124,6 +125,12 @@
             }
 
             return base.TryInvokeMember(binder, args, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Data[binder.Name] = value;
+            return true;
         }
 
         private Tuple<string, object[]> GetMethodMockKey(string methodName, IList<object> parameters)

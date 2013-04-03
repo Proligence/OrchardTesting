@@ -86,16 +86,6 @@
             Setup(x => x.Remove(contentItem));
         }
 
-        public void ExpectFlush()
-        {
-            Setup(x => x.Flush()).Verifiable("ContentManager was not flushed.");
-        }
-
-        public void VerifyFlush()
-        {
-            Verify(x => x.Flush());
-        }
-
         public void ExpectClear()
         {
             Setup(x => x.Clear()).Verifiable("ContentManager was not cleared");

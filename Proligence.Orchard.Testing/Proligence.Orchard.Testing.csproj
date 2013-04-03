@@ -57,6 +57,7 @@
     <Compile Include="CombinedResultExtensions.cs" />
     <Compile Include="ContentDriverTestFixture.cs" />
     <Compile Include="ContainerTestFixture.cs" />
+    <Compile Include="ContentFactory.cs" />
     <Compile Include="ContentHandlerTestFixture.cs" />
     <Compile Include="ContentPartDriverExtensions.cs" />
     <Compile Include="ContentShapeResultExtensions.cs" />

@@ -14,6 +14,7 @@
         {
             CurrentUserMock = new Mock<IUser>();
             CurrentUser = CurrentUserMock.Object;
+            CurrentTimeZone = TimeZoneInfo.Utc;
         }
 
         public WorkContextMock(MockBehavior mockBehavior)

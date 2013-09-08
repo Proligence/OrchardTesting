@@ -15,6 +15,11 @@
             _mocks = new Dictionary<string, Func<dynamic>>();
         }
 
+        public IShape Create(string shapeType)
+        {
+            throw new NotImplementedException();
+        }
+
         public IShape Create(string shapeType, INamedEnumerable<object> parameters)
         {
             throw new NotImplementedException();

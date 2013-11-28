@@ -67,6 +67,7 @@
     <Compile Include="Mocks\AuthorizerMock.cs" />
     <Compile Include="Mocks\ContentDefinitionManagerMock.cs" />
     <Compile Include="Mocks\ContentManagerMock.cs" />
+    <Compile Include="Stubs\ContentManagerStub.cs" />
     <Compile Include="Mocks\ContentTypePartDefinitionBuilderMock.cs" />
     <Compile Include="Mocks\LoggerMock.cs" />
     <Compile Include="Mocks\NotifierMock.cs" />

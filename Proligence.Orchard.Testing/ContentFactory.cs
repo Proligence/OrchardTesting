@@ -38,5 +38,23 @@
         {
             return CreateContentItem(0, null, parts);
         }
+
+        public static TPart CreateContentItem<TPart>(int id, string contentType, params ContentPart[] parts)
+            where TPart : IContent
+        {
+            return CreateContentItem(id, contentType, parts).As<TPart>();
+        }
+
+        public static TPart CreateContentItem<TPart>(int id, params ContentPart[] parts)
+            where TPart : IContent
+        {
+            return CreateContentItem(id, parts).As<TPart>();
+        }
+
+        public static TPart CreateContentItem<TPart>(params ContentPart[] parts)
+            where TPart : IContent
+        {
+            return CreateContentItem(parts).As<TPart>();
+        }
     }
 }

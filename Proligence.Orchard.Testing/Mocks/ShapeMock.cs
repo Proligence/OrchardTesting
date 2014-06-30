@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Dynamic;
     using System.Web.Mvc;
     using global::Orchard.ContentManagement;
@@ -125,6 +124,11 @@
             }
 
             return base.TryInvokeMember(binder, args, out result);
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return Data.TryGetValue(binder.Name, out result);
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)

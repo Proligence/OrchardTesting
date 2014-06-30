@@ -16,6 +16,7 @@
             AuthorizerMock = new AuthorizerMock();
             NotifierMock = new NotifierMock();
             WorkContextMock = new WorkContextMock();
+            New = new ShapeFactoryMock();
         }
 
         public OrchardServicesMock(MockBehavior mockBehavior)
@@ -25,6 +26,7 @@
             AuthorizerMock = new AuthorizerMock(mockBehavior);
             NotifierMock = new NotifierMock(mockBehavior);
             WorkContextMock = new WorkContextMock(mockBehavior);
+            New = new ShapeFactoryMock();
         }
 
         public ContentManagerMock ContentManagerMock { get; private set; }

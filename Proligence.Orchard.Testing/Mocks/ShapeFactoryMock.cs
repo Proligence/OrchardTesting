@@ -17,17 +17,53 @@
 
         public IShape Create(string shapeType)
         {
-            throw new NotImplementedException();
+            Func<dynamic> factory;
+            if (_mocks.TryGetValue(shapeType, out factory))
+            {
+                return factory();
+            }
+
+            return new ShapeMock(shapeType);
         }
 
         public IShape Create(string shapeType, INamedEnumerable<object> parameters)
         {
-            throw new NotImplementedException();
+            dynamic shape;
+
+            Func<dynamic> factory;
+            if (_mocks.TryGetValue(shapeType, out factory))
+            {
+                shape = factory();
+            }
+            else
+            {
+                shape = new ShapeMock(shapeType);
+            }
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> parameter in parameters.Named)
+                {
+                    shape.Data[parameter.Key] = parameter.Value;
+                }
+            }
+
+            return shape;
         }
 
         public IShape Create(string shapeType, INamedEnumerable<object> parameters, Func<dynamic> createShape)
         {
-            throw new NotImplementedException();
+            dynamic shape = createShape();
+
+            if (parameters != null)
+            {
+                foreach (KeyValuePair<string, object> parameter in parameters.Named)
+                {
+                    shape.Data[parameter.Key] = parameter.Value;
+                }
+            }
+
+            return shape;
         }
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)

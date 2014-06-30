@@ -11,6 +11,11 @@
             Assert.That(actionResult, Is.InstanceOf<HttpNotFoundResult>());
         }
 
+        public static void IsHttpUnauthorized(ActionResult actionResult)
+        {
+            Assert.That(actionResult, Is.InstanceOf<HttpUnauthorizedResult>());
+        }
+
         public static void IsRedirect(ActionResult actionResult, string targetUrl)
         {
             Assert.That(actionResult, Is.InstanceOf<RedirectResult>());

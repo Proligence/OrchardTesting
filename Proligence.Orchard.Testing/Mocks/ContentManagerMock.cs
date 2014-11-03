@@ -56,6 +56,11 @@
             Setup(x => x.Get(id, It.Is<VersionOptions>(o => o.IsDraftRequired))).Returns(contentItem);
         }
 
+        public void ExpectGetItemLatestVersion(int id, ContentItem contentItem)
+        {
+            Setup(x => x.Get(id, It.Is<VersionOptions>(o => o.IsLatest))).Returns(contentItem);
+        }
+
         public void ExpectGetItemAnyVersion(int id, ContentItem contentItem)
         {
             Setup(x => x.Get(id, It.IsAny<VersionOptions>())).Returns(contentItem);

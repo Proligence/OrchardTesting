@@ -3,22 +3,40 @@
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
+#if (NUNIT)
     using NUnit.Framework;
+#endif
     using global::Orchard.Mvc.Routes;
     using global::Orchard.WebApi.Routes;
+#if (XUNIT)
+    using Xunit;
+#endif
 
     public abstract class HttpRoutesTestFixture<TRouteProvider>
         where TRouteProvider : IHttpRouteProvider, new()
     {
+#if (XUNIT)
+        protected HttpRoutesTestFixture()
+        {
+            RouteProvider = new TRouteProvider();
+        } 
+#endif
+
         public TRouteProvider RouteProvider { get; private set; }
 
+#if (NUNIT)
         [SetUp]
+#endif
         public void Setup()
         {
             RouteProvider = new TRouteProvider();
         }
 
+#if (NUNIT)
         [Test]
+#elif (XUNIT)
+        [Fact]
+#endif
         public void TestLegacyGetRoutes()
         {
             RouteDescriptor[] routes1 = RouteProvider.GetRoutes().ToArray();
@@ -27,18 +45,18 @@
             RouteProvider.GetRoutes(routeCollection);
             
             RouteDescriptor[] routes2 = routeCollection.ToArray();
-
-            Assert.That(routes1.Length, Is.EqualTo(routes2.Length));
+            
+            GenericAssert.AreEqual(routes2.Length, routes1.Length);
 
             for (int i = 0; i < routes1.Length; i++)
             {
                 var routeDescriptor1 = (HttpRouteDescriptor)routes1[i];
                 var routeDescriptor2 = (HttpRouteDescriptor)routes1[i];
                 
-                Assert.That(routes1[i].Name, Is.EqualTo(routes2[i].Name));
-                Assert.That(routes1[i].Priority, Is.EqualTo(routes2[i].Priority));
-                Assert.That(routeDescriptor1.RouteTemplate, Is.EqualTo(routeDescriptor2.RouteTemplate));
-                Assert.That(routeDescriptor1.Defaults, Is.EqualTo(routeDescriptor2.Defaults));
+                GenericAssert.AreEqual(routes2[i].Name, routes1[i].Name);
+                GenericAssert.AreEqual(routes2[i].Priority, routes1[i].Priority);
+                GenericAssert.AreEqual(routeDescriptor2.RouteTemplate, routeDescriptor1.RouteTemplate);
+                GenericAssert.AreEqual(routeDescriptor2.Defaults, routeDescriptor1.Defaults);
             }
         }
 
@@ -50,7 +68,7 @@
 
             if (routeDescriptor == null)
             {
-                Assert.Fail("Failed to find route with URL '" + url + "'.");
+                GenericAssert.Fail("Failed to find route with URL '" + url + "'.");
             }
 
             var route = (HttpRouteDescriptor)routeDescriptor;
@@ -61,8 +79,8 @@
                 area, 
                 controller,
                 action);
-            
-            Assert.That(route.Defaults.ToString(), Is.EqualTo(expected));
+
+            GenericAssert.AreEqual(expected, route.Defaults.ToString());
         }
     }
 }

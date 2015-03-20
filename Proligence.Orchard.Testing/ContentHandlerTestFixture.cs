@@ -2,20 +2,24 @@
 {
     using System;
     using System.Linq;
+#if (NUNIT)
     using NUnit.Framework;
+#endif
     using global::Orchard.ContentManagement.Handlers;
     using global::Orchard.ContentManagement.Records;
 
     public abstract class ContentHandlerTestFixture<THandler>
         where THandler : ContentHandler
     {
-        public THandler Handler { get; private set; }
+        public THandler Handler { get; set; }
 
+#if (NUNIT)
         [SetUp]
         public virtual void Setup()
         {
             Handler = CreateHandler();
         }
+#endif
 
         public void InvokeActivating(ActivatingContentContext context)
         {
@@ -158,7 +162,7 @@
             string storageVersionFilterName = typeof(StorageVersionFilter<>).Name;
             string storageFilterName = typeof(StorageFilter<>).Name;
 
-            Assert.That(Handler.Filters.Any(f =>
+            GenericAssert.True(Handler.Filters.Any(f =>
                 (f.GetType().Name == storageVersionFilterName || f.GetType().Name == storageFilterName)
                 && f.GetType().GetGenericArguments()[0].Name == typeof(TRecord).Name),
                 "Expected StorageFilter for '" + typeof(TRecord).Name + "' but filter was not attached.");
@@ -167,7 +171,7 @@
         public void AssertHandlerHasFilter<TFilter>()
             where TFilter : IContentFilter
         {
-            Assert.That(
+            GenericAssert.True(
                 Handler.Filters.Any(f => f.GetType().Name == typeof(TFilter).Name),
                 "Expected filter '" + typeof(TFilter).Name + "' but filter was not attached.");
         }
@@ -178,10 +182,10 @@
             IContentFilter filter = Handler.Filters.FirstOrDefault(f => f.GetType().Name == typeof(TFilter).Name);
             if (filter == null)
             {
-                Assert.Fail("Expected filter '" + typeof(TFilter).Name + "' but filter was not attached.");
+                GenericAssert.Fail("Expected filter '" + typeof(TFilter).Name + "' but filter was not attached.");
             }
 
-            Assert.That(assert((TFilter)filter), "Content filter assertion failed.");
+            GenericAssert.True(assert((TFilter)filter), "Content filter assertion failed.");
         }
 
         protected abstract THandler CreateHandler();

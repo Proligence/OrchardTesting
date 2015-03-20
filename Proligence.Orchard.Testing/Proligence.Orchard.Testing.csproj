@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -42,7 +42,7 @@
     <Reference Include="Moq">
       <HintPath>..\..\..\..\lib\moq\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
+    <Reference Include="nunit.framework" Condition="$(DefineConstants.Contains('NUNIT'))">
       <HintPath>..\..\..\..\lib\nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -57,6 +57,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions" Condition="$(DefineConstants.Contains('XUNIT'))">
+      <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert" Condition="$(DefineConstants.Contains('XUNIT'))">
+      <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core" Condition="$(DefineConstants.Contains('XUNIT'))">
+      <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionResultExtensions.cs" />
@@ -70,6 +79,7 @@
     <Compile Include="ContentPartDriverExtensions.cs" />
     <Compile Include="ContentShapeResultExtensions.cs" />
     <Compile Include="ControllerTestFixture.cs" />
+    <Compile Include="GenericAssert.cs" />
     <Compile Include="HttpRoutesTestFixture.cs" />
     <Compile Include="LazyFieldExtensions.cs" />
     <Compile Include="Mocks\AuthorizerMock.cs" />

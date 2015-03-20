@@ -1,16 +1,28 @@
 ﻿namespace Proligence.Orchard.Testing
 {
+#if (NUNIT)
     using NUnit.Framework;
+#endif
     using Proligence.Orchard.Testing.Mocks;
 
     public abstract class ControllerTestFixture
     {
+#if (XUNIT)
+        protected ControllerTestFixture()
+        {
+            OrchardServices = new OrchardServicesMock();
+            LoggerMock = new LoggerMock();
+        }
+#endif
+
+#if (NUNIT)
         [SetUp]
         public virtual void Setup()
         {
             OrchardServices = new OrchardServicesMock();
             LoggerMock = new LoggerMock();
         }
+#endif
 
         public OrchardServicesMock OrchardServices { get; private set; }
         public LoggerMock LoggerMock { get; private set; }

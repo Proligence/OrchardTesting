@@ -61,6 +61,11 @@
             Setup(x => x.Get(id, It.Is<VersionOptions>(o => o.IsLatest))).Returns(contentItem);
         }
 
+        public void ExpectGetItemPublishedVersion(int id, ContentItem contentItem)
+        {
+            Setup(x => x.Get(id, It.Is<VersionOptions>(o => o.IsPublished))).Returns(contentItem);
+        }
+
         public void ExpectGetItemAnyVersion(int id, ContentItem contentItem)
         {
             Setup(x => x.Get(id, It.IsAny<VersionOptions>())).Returns(contentItem);

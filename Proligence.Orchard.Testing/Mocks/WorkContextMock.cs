@@ -1,10 +1,11 @@
-﻿namespace Proligence.Orchard.Testing.Mocks
+namespace Proligence.Orchard.Testing.Mocks
 {
     using System;
     using System.Collections.Generic;
     using Moq;
     using global::Orchard;
     using global::Orchard.Security;
+    using global::Orchard.Settings;
 
     public class WorkContextMock : WorkContext
     {
@@ -12,8 +13,12 @@
 
         public WorkContextMock()
         {
+            CurrentSiteMock = new Mock<ISite>();
+            CurrentSite = CurrentSiteMock.Object;
+
             CurrentUserMock = new Mock<IUser>();
             CurrentUser = CurrentUserMock.Object;
+
             CurrentTimeZone = TimeZoneInfo.Utc;
         }
 
@@ -21,8 +26,12 @@
         {
             CurrentUserMock = new Mock<IUser>(mockBehavior);
             CurrentUser = CurrentUserMock.Object;
+
+            CurrentSiteMock = new Mock<ISite>(mockBehavior);
+            CurrentSite = CurrentSiteMock.Object;
         }
 
+        public Mock<ISite> CurrentSiteMock { get; private set; }
         public Mock<IUser> CurrentUserMock { get; private set; }
         public Func<Type, object> ResolveFunc { get; set; }
 

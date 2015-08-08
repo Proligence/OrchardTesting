@@ -1,5 +1,6 @@
 ﻿namespace Proligence.Orchard.Testing
 {
+    using System.Collections.Generic;
     using System.Reflection;
 #if (NUNIT)
     using NUnit.Framework;
@@ -30,6 +31,12 @@
         }
 #endif
 
+        protected override void Register(ContainerBuilder builder)
+        {
+            base.Register(builder);
+            builder.RegisterType<TProvider>().As<TProvider>().As<ITokenProvider>();
+        }
+
         private void Initialize()
         {
             Provider = Container.Resolve<TProvider>();
@@ -40,7 +47,7 @@
                 localizerProperty.SetValue(Provider, NullLocalizer.Instance, null);
             }
 
-            Tokenizer = new Tokenizer(new TokenManager(new ITokenProvider[] { Provider }));
+            Tokenizer = new Tokenizer(new TokenManager(Container.Resolve<IEnumerable<ITokenProvider>>()));
         }
     }
 }

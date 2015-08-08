@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25E68CE8-EB2B-493C-94BC-10706A5AF682}</ProjectGuid>
+    <ProjectGuid>{4506165D-453E-40C9-A87C-6EB6EF19A07B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Proligence.Orchard.Testing</RootNamespace>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NUNIT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;XUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NUNIT</DefineConstants>
+    <DefineConstants>TRACE;XUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -42,28 +42,25 @@
     <Reference Include="Moq">
       <HintPath>..\..\..\..\lib\moq\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework" Condition="$(DefineConstants.Contains('NUNIT'))">
-      <HintPath>..\..\..\..\lib\nunit\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit.abstractions" Condition="$(DefineConstants.Contains('XUNIT'))">
+    <Reference Include="xunit.abstractions">
       <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.assert" Condition="$(DefineConstants.Contains('XUNIT'))">
+    <Reference Include="xunit.assert">
       <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.assert.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.core" Condition="$(DefineConstants.Contains('XUNIT'))">
+    <Reference Include="xunit.core">
       <HintPath>..\..\..\..\lib\xunit\2.0.0-rc3\xunit.core.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -101,15 +98,15 @@
     <Compile Include="TokenProviderTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Orchard.Web\Core\Orchard.Core.csproj">
+    <ProjectReference Include="..\..\..\..\..\Projects\Orchard\src\Orchard.Web\Core\Orchard.Core.csproj">
       <Project>{9916839c-39fc-4ceb-a5af-89ca7e87119f}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Orchard.Web\Modules\Orchard.Tokens\Orchard.Tokens.csproj">
+    <ProjectReference Include="..\..\..\..\..\Projects\Orchard\src\Orchard.Web\Modules\Orchard.Tokens\Orchard.Tokens.csproj">
       <Project>{6f759635-13d7-4e94-bcc9-80445d63f117}</Project>
       <Name>Orchard.Tokens</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
+    <ProjectReference Include="..\..\..\..\..\Projects\Orchard\src\Orchard\Orchard.Framework.csproj">
       <Project>{2d1d92bb-4555-4cbe-8d0e-63563d6ce4c6}</Project>
       <Name>Orchard.Framework</Name>
     </ProjectReference>

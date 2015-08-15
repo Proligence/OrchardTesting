@@ -68,20 +68,7 @@
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            if ((binder.Name == "List") && (args.Length == 0))
-            {
-                result = new ShapeMock("List");
-                return true;
-            }
-
-            if (!args.Any())
-            {
-                result = null;
-                return false;
-            }
-
             dynamic shape;
-
             Func<dynamic> factory;
             if (_mocks.TryGetValue(binder.Name, out factory))
             {

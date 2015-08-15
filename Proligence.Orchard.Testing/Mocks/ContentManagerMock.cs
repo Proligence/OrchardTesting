@@ -116,6 +116,26 @@
             Verify(x => x.Clear());
         }
 
+        public void ExpectBuildEditor(IContent contentItem, string groupId = "")
+        {
+            Setup(x => x.BuildEditor(contentItem, groupId)).Returns(new ShapeMock(""));
+        }
+
+        public void ExpectBuildEditor(dynamic shape, IContent contentItem, string groupId = "")
+        {
+            Setup(x => x.BuildEditor(contentItem, groupId)).Returns(shape);
+        }
+
+        public void ExpectBuildDisplay(IContent contentItem, string displayType = "", string groupId = "")
+        {
+            Setup(x => x.BuildDisplay(contentItem, displayType, groupId)).Returns(new ShapeMock(""));
+        }
+
+        public void ExpectBuildDisplay(dynamic shape, IContent contentItem, string displayType = "", string groupId = "")
+        {
+            Setup(x => x.BuildDisplay(contentItem, displayType, groupId)).Returns(shape);
+        }
+
         public void MockContentItem<TPart, TRecord>(IContent item, params string[] contentTypeNames)
             where TPart : ContentPart
             where TRecord : ContentPartRecord

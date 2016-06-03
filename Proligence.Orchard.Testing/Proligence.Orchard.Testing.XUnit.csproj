@@ -95,6 +95,7 @@
     <Compile Include="Mocks\ShapeFactoryMock.cs" />
     <Compile Include="RoutesTestFixture.cs" />
     <Compile Include="ShapeTestFixture.cs" />
+    <Compile Include="Stubs\RepositoryStub.cs" />
     <Compile Include="TokenProviderTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>

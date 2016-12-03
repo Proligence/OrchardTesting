@@ -1,5 +1,6 @@
 ﻿namespace Proligence.Orchard.Testing
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using global::Orchard.ContentManagement;
@@ -38,6 +39,20 @@
 
             foreach (ContentPart part in parts)
             {
+                var recordProperty = part.GetType().GetProperty("Record");
+                if (recordProperty != null)
+                {
+                    try
+                    {
+                        var record = Activator.CreateInstance(recordProperty.PropertyType);
+                        recordProperty.SetValue(part, record);
+                    }
+                    catch
+                    {
+                        // If the record cannot be created automatically, it must be created by the caller.
+                    }
+                }
+
                 item.Weld(part);
             }
 

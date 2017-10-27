@@ -25,8 +25,9 @@
 
 #if (NUNIT)
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
             Initialize();
         }
 #endif

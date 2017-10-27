@@ -45,6 +45,11 @@ namespace Proligence.Orchard.Testing.Mocks
             return default(T);
         }
 
+        public override object Resolve(Type serviceType)
+        {
+            return ResolveFunc?.Invoke(serviceType);
+        }
+
         public override bool TryResolve<T>(out T service)
         {
             service = default(T);
@@ -52,7 +57,20 @@ namespace Proligence.Orchard.Testing.Mocks
             if (ResolveFunc != null)
             {
                 service = (T)ResolveFunc(typeof(T));
-                return (service != null);
+                return service != null;
+            }
+
+            return false;
+        }
+
+        public override bool TryResolve(Type serviceType, out object service)
+        {
+            service = null;
+
+            if (ResolveFunc != null)
+            {
+                service = ResolveFunc(serviceType);
+                return service != null;
             }
 
             return false;
